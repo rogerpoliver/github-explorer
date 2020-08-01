@@ -2,7 +2,7 @@ import React, { useState, FormEvent } from 'react';
 import api from '../../services/api';
 import logo from '../../assets/logo.svg';
 import { FiChevronRight } from 'react-icons/fi';
-import { Title, Form, Repositories } from './styles';
+import { Title, Form, Repositories, Error } from './styles';
 
 interface Repository {
 	//Tipar somente as informações que você vai utlizar.
@@ -16,17 +16,31 @@ interface Repository {
 
 const Dashboard: React.FC = () => {
 	const [newRepo, setNewRepo] = useState('');
+	const [inputError, setInputError] = useState('');
 	const [repositories, setRepositories] = useState<Repository[]>([]);
 
 	async function handleAddRepository(
 		event: FormEvent<HTMLFormElement>,
 	): Promise<void> {
 		event.preventDefault();
-		const response = await api.get<Repository>(`repos/${newRepo}`);
-		const repository = response.data;
-		setRepositories([...repositories, repository]);
-		// Limpa o input
-		setNewRepo('');
+
+		// Verifica se o input está vazio
+		if (!newRepo) {
+			setInputError('Choose a valid author/repository');
+			return;
+		}
+
+		try {
+			const response = await api.get<Repository>(`repos/${newRepo}`);
+			const repository = response.data;
+			setRepositories([...repositories, repository]);
+			// Limpa o input
+			setNewRepo('');
+			// Limpa a mensagem de erro
+			setInputError('');
+		} catch (error) {
+			setInputError('Error on repository search...');
+		}
 	}
 
 	return (
@@ -41,6 +55,10 @@ const Dashboard: React.FC = () => {
 				/>
 				<button type="submit">Search</button>
 			</Form>
+
+			{/* Só exibe o componente se inputError for true */}
+			{inputError && <Error>{inputError}</Error>}
+
 			<Repositories>
 				{repositories.map(repository => (
 					<a key={repository.full_name} href="teste">
