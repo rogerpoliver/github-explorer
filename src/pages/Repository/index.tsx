@@ -1,7 +1,15 @@
-import React from "react";
+// Modulos
+import React from 'react';
+import { useRouteMatch } from 'react-router-dom';
+
+interface RepositoryParams {
+	repository: string;
+}
 
 const Repository: React.FC = () => {
-  return <h1>Repository</h1>;
+	// Utiliza o useRouteMatch para pegar os parametros da rota
+	const { params } = useRouteMatch<RepositoryParams>();
+	return <h1>Repository:{params.repository}</h1>;
 };
 
 export default Repository;
