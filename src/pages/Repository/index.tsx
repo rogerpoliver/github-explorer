@@ -1,5 +1,5 @@
 // Modulos
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouteMatch, Link } from 'react-router-dom';
 
 // Server Code
@@ -16,9 +16,48 @@ interface RepositoryParams {
 	repository: string;
 }
 
+interface Repository {
+	//Tipar somente as informações que você vai utlizar.
+	full_name: string;
+	description: string;
+	owner: {
+		login: string;
+		avatar_url: string;
+	};
+	stargazers_count: number;
+	open_issues_count: number;
+	forks_count: number;
+}
+
+interface Issue {
+	id: number;
+	title: string;
+	user: {
+		login: string;
+	};
+	html_url: string;
+}
+
 const Repository: React.FC = () => {
+	const [repository, setRepository] = useState<Repository | null>(null);
+	const [issues, setIssues] = useState<Issue[]>([]);
+
 	// Utiliza o useRouteMatch para pegar os parametros da rota
 	const { params } = useRouteMatch<RepositoryParams>();
+
+	// Faz a resquest para obter os dados
+	useEffect(() => {
+		async function loadData(): Promise<void> {
+			const [repository, issues] = await Promise.all([
+				api.get(`repos/${params.repository}`),
+				api.get(`repos/${params.repository}/issues`),
+			]);
+			setRepository(repository.data);
+			setIssues(issues.data);
+		}
+		loadData();
+	}, [params.repository]);
+
 	return (
 		<>
 			<Header>
@@ -28,40 +67,46 @@ const Repository: React.FC = () => {
 					Voltar
 				</Link>
 			</Header>
-			<RepositoryInfo>
-				<header>
-					<img
-						src="https://avatars3.githubusercontent.com/u/30274518?s=460&u=b332aaee380877aaf48c66e1ef220588e46d9c7b&v=4"
-						alt="Teste"
-					/>
-					<div>
-						<strong>Teste Nome</strong>
-						<p>Teste description</p>
-					</div>
-				</header>
-				<ul>
-					<li>
-						<strong>Teste 1</strong>
-						<span>123</span>
-					</li>
-					<li>
-						<strong>Teste 2</strong>
-						<span>456</span>
-					</li>
-					<li>
-						<strong>Teste 4</strong>
-						<span>789</span>
-					</li>
-				</ul>
-			</RepositoryInfo>
+			{/* IF repository existe, mostra os dados */}
+			{repository && (
+				<RepositoryInfo>
+					<header>
+						<img
+							src={repository.owner.avatar_url}
+							alt={repository.owner.login}
+						/>
+						<div>
+							<strong>{repository.full_name}</strong>
+							<p>{repository.description}</p>
+						</div>
+					</header>
+					<ul>
+						<li>
+							<strong>{repository.stargazers_count}</strong>
+							<span>Stars</span>
+						</li>
+						<li>
+							<strong>{repository.forks_count}</strong>
+							<span>Forks</span>
+						</li>
+						<li>
+							<strong>{repository.open_issues_count}</strong>
+							<span>Issues Abertas</span>
+						</li>
+					</ul>
+				</RepositoryInfo>
+			)}
+
 			<Issues>
-				<Link to={'/teste'}>
-					<div>
-						<strong>Teste</strong>
-						<p>Teste</p>
-					</div>
-					<FiChevronRight size={20} />
-				</Link>
+				{issues.map(issue => (
+					<a key={issue.id} href={issue.html_url}>
+						<div>
+							<strong>{issue.title}</strong>
+							<p>{issue.user.login}</p>
+						</div>
+						<FiChevronRight size={20} />
+					</a>
+				))}
 			</Issues>
 		</>
 	);
