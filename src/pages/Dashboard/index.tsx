@@ -7,7 +7,7 @@ import { Title, Form, Repositories, Error } from './styles';
 
 // Assets
 import { FiChevronRight } from 'react-icons/fi';
-import logo from '../../assets/logo.svg';
+import logoImg from '../../assets/logo.svg';
 
 // Server Code
 import api from '../../services/api';
@@ -70,7 +70,9 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<>
-			<img src={logo} alt="GitHub Explorer"></img>
+			<Link to="/">
+				<img src={logoImg} alt="Github Explorer" />
+			</Link>
 
 			<Title>Explore Github repositories</Title>
 
