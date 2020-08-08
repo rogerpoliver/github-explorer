@@ -48,5 +48,5 @@ $ npm start
 
 ## Mais sobre essa aplicação
 
-- Este projeto foi criado utilizando o pacote Create React App.
-- Arquitetura inicial desenvolvida no modulo 3.1 do Bootcamp GoStack 12 da Rocketseat.
+- Este projeto foi criado utilizando o pacote [Create React App](https://create-react-app.dev/docs/getting-started/).
+- Arquitetura inicial desenvolvida no modulo 3.1 do Bootcamp GoStack 12 da [Rocketseat](https://rocketseat.com.br/).
