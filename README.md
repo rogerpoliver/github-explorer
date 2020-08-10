@@ -18,16 +18,35 @@ Github Explorer é uma aplicação simples que permite o usuário adicionar repo
 	</a>
 </div>
 
+## Requisitos
+* [Nodejs](https://nodejs.org/en/)
+* [Yarn](https://yarnpkg.com/) ou [Npm](https://www.npmjs.com/)
 
 ## Como rodar a aplicação
 
-Rodar a  aplicação em modo desenvolvimento. O endereço utilizado será [http://localhost:3000](http://localhost:3000/)
+Instale as dependencias
 
+Com Yarn
+```json
+$ yarn
+```
+Com Npm
+```json
+$ npm install
+```
+Rodar a  aplicação em modo desenvolvimento. 
+O endereço utilizado será localhost:3000
+
+Com Yarn
 ```json
 $ yarn start
+```
+Com Npm
+```json
+$ npm start
 ```
 
 ## Mais sobre essa aplicação
 
-- Este projeto foi criado utilizando o pacote Create React App.
-- Arquitetura inicial desenvolvida no modulo 3.1 do Bootcamp GoStack 12 da Rocketseat.
+- Este projeto foi criado utilizando o pacote [Create React App](https://create-react-app.dev/docs/getting-started/).
+- Arquitetura inicial desenvolvida no modulo 3.1 do Bootcamp GoStack 12 da [Rocketseat](https://rocketseat.com.br/).
