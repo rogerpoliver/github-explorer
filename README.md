@@ -2,6 +2,9 @@
 
 Github Explorer é uma aplicação simples que permite o usuário adicionar repositórios do github em uma lista e verificar informações sobre estes repositórios como Nome, descrição, starts, forks, issues e PR abertas.
 
+![](src/assets/test.gif)
+
+
 ## Desenvolvido com
 <div>
 	<a href="https://reactjs.org/">
